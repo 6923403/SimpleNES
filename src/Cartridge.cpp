@@ -29,7 +29,7 @@ namespace sn
 
     Byte Cartridge::getNameTableMirroring()
     {
-        return m_nameTableMirroring;
+        return m_nameTableMirroring; //return 1
     }
 
     bool Cartridge::hasExtendedRAM()
@@ -123,7 +123,7 @@ namespace sn
         LOG(Info) << "Name Table Mirroring: " << +m_nameTableMirroring << std::endl;
 
         m_mapperNumber = ((header[6] >> 4) & 0xf) | (header[7] & 0xf0);
-        LOG(Info) << "Mapper #: " << +m_mapperNumber << std::endl;
+        LOG(Info) << "Mapper(m_mapperNumber) #: " << +m_mapperNumber << std::endl;
 
         m_extendedRAM = header[6] & 0x2;
         LOG(Info) << "Extended (CPU) RAM: " << std::boolalpha << m_extendedRAM << std::endl;

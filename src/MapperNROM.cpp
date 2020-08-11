@@ -27,6 +27,9 @@ namespace sn
 
     Byte MapperNROM::readPRG(Address addr)
     {
+        /*
+         * m_oneBank = false
+         */
         if (!m_oneBank)
             return m_cartridge.getROM()[addr - 0x8000];
         else //mirrored

@@ -69,7 +69,7 @@ namespace sn
 
     void PictureBus::updateMirroring()
     {
-        switch (m_mapper->getNameTableMirroring())
+        switch (m_mapper->getNameTableMirroring()) //return 1
         {
             case Horizontal:
                 NameTable0 = NameTable1 = 0;

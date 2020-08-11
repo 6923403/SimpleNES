@@ -52,7 +52,7 @@ namespace sn
         }
         else
         {
-            return m_mapper->readPRG(addr);
+            return m_mapper->readPRG(addr); //addr = 65532
         }
         return 0;
     }
@@ -139,7 +139,7 @@ namespace sn
             return false;
         }
 
-        if (mapper->hasExtendedRAM())
+        if (mapper->hasExtendedRAM()) //Supper.nes return true
             m_extRAM.resize(0x2000);
 
         return true;
