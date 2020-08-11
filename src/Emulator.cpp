@@ -44,6 +44,9 @@ namespace sn
         if (!m_cartridge.loadFromFile(rom_path))
             return;
 
+        /*
+         * return unique_ptr<Mapper> ret; ret->m_cartridge
+         */
         m_mapper = Mapper::createMapper(static_cast<Mapper::Type>(m_cartridge.getMapper()),
                                         m_cartridge,
                                         [&](){ m_pictureBus.updateMirroring(); });
@@ -60,11 +63,28 @@ namespace sn
         m_cpu.reset();
         m_ppu.reset();
 
+        /*
+         * videomode len and wid;
+         * win title
+         */
         m_window.create(sf::VideoMode(NESVideoWidth * m_screenScale, NESVideoHeight * m_screenScale),
-                        "SimpleNES", sf::Style::Titlebar | sf::Style::Close);
+                        "SuperNes", sf::Style::Titlebar | sf::Style::Close);
+
+        /*
+         * 垂直同步
+         */
         m_window.setVerticalSyncEnabled(true);
+
+        /*
+         * 这个大概是窗口绘画
+         * 依赖SFML 窗口绘画为白色
+         */
         m_emulatorScreen.create(NESVideoWidth, NESVideoHeight, m_screenScale, sf::Color::White);
 
+        /*
+         * std::cout << "m_cycleTimer = " << m_cycleTimer.time_since_epoch().count() << "\n";
+         * m_cycleTimer = 1597128405181263233
+         */
         m_cycleTimer = std::chrono::high_resolution_clock::now();
         m_elapsedTime = m_cycleTimer - m_cycleTimer;
 
@@ -72,8 +92,15 @@ namespace sn
         bool focus = true, pause = false;
         while (m_window.isOpen())
         {
+            /*
+             * https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Event.php#af41fa9ed45c02449030699f671331d4a
+             */
             while (m_window.pollEvent(event))
             {
+                /*
+                 * The window requested to be closed (no data)
+                 * KeyPressed A key was pressed (data in event.key)
+                 */
                 if (event.type == sf::Event::Closed ||
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 {
@@ -82,13 +109,22 @@ namespace sn
                 }
                 else if (event.type == sf::Event::GainedFocus)
                 {
+                    /*
+                     * GainedFocus 	The window gained the focus (no data)
+                     */
                     focus = true;
                     m_cycleTimer = std::chrono::high_resolution_clock::now();
                 }
                 else if (event.type == sf::Event::LostFocus)
+                    /*
+                     * LostFocus The window lost the focus (no data)
+                     */
                     focus = false;
                 else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::F2)
                 {
+                    /*
+                     * KeyPressed A key was pressed (data in event.key)
+                     */
                     pause = !pause;
                     if (!pause)
                         m_cycleTimer = std::chrono::high_resolution_clock::now();
@@ -180,5 +216,7 @@ namespace sn
         m_controller1.setKeyBindings(p1);
         m_controller2.setKeyBindings(p2);
     }
+
+
 
 }

@@ -1,13 +1,14 @@
 #ifndef EMULATOR_H
 #define EMULATOR_H
-#include <SFML/Graphics.hpp>
-#include <chrono>
-
 #include "CPU.h"
 #include "PPU.h"
 #include "MainBus.h"
 #include "PictureBus.h"
 #include "Controller.h"
+
+#include <SFML/Graphics.hpp>
+#include <chrono>
+#include <iostream>
 
 namespace sn
 {
